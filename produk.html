@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gambar{
+            width: 150px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    Keyword: <input type="text" id="keyword"> 
+    <button onclick="cari()">Cari</button>
+
+    <div id="result">
+
+    </div>
+
+    <script>
+        function cari(){
+            const xhttp = new XMLHttpRequest();
+            
+            var keyword = document.getElementById("keyword").value;
+            var url = "https://www.blibli.com/backend/search/products?searchTerm=" + keyword;
+            xhttp.onload = function() {
+                document.getElementById("result").innerHTML = "";
+                
+                var result = JSON.parse(this.responseText);
+                var products = result.data.products;
+                var length = products.length;
+
+                for(i = 0; i< products.length; i++){
+                    var name = document.createElement("h3");
+                    name.innerHTML = products[i].name;
+                    
+
+                    var price = document.createElement("h5");
+                    price.innerHTML = products[i].price.priceDisplay;
+
+                    var img = document.createElement("img");
+                    img.setAttribute("class", "gambar");
+                    img.src = products[i].images[0];
+
+                    document.getElementById("result").append(name, price, img);
+
+                }
+
+
+            }
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+    </script>
+</body>
+</html>

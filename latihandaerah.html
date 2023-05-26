@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Data Daerah di Indonesia
+    Provinsi : <select id="provinsi"></select>
+    <br>
+    Kabupaten/Kota : <select id="kabupatenkota"></select>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+           var urlprovinsi = 'http://dev.farizdotid.com/api/daerahindonesia/provinsi';
+           $.get(urlprovinsi, function(data, status){            
+                //console.log(data);
+                for(i = 0; i< data.provinsi.length; i++){
+                    var opt = '<option value='+data.provinsi[i].id +">"+data.provinsi[i].nama +"</option>";
+                    $('#provinsi').append(opt);
+                }
+           });
+
+           $('#provinsi').change(function(){            
+            var id_provinsi = $('#provinsi').val();
+            var urlkab = 'http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=' + id_provinsi;
+            $('#kabupatenkota').empty();
+
+                $.get(urlkab, function(data, status){            
+                //console.log(data);                
+                    for(i = 0; i< data.kota_kabupaten.length; i++){
+                        var opt = '<option value='+data.kota_kabupaten[i].id +">"+data.kota_kabupaten[i].nama +"</option>";
+                        $('#kabupatenkota').append(opt);
+                    }
+                });
+           })
+
+        });
+
+    </script>
+</body>
+</html>

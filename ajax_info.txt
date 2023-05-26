@@ -1,0 +1,2 @@
+<p>Ini halaman dipanggil dari ajax</p>
+<p>Response akan ditampilkan pada div dengan id = demo</p>
